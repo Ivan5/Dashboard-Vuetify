@@ -29,6 +29,7 @@
 
 <script>
 import format from "date-fns/format";
+import db from "@/fb";
 
 export default {
   data() {
@@ -42,7 +43,19 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
-        console.log(this.title, this.content);
+        const project = {
+          title: this.title,
+          content: this.content,
+          due: format(this.due, "Do MMM YYYY"),
+          person: "Ivan JF",
+          status: "ongoing"
+        };
+
+        db.collection("projects")
+          .add(project)
+          .then(() => {
+            console.log("added");
+          });
       }
     }
   },
